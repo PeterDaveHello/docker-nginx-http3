@@ -73,8 +73,7 @@ RUN set -x; GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
   " \
   && addgroup -S nginx \
   && adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
-  && apk update \
-  && apk upgrade \
+  && apk upgrade --no-cache \
   && apk add --no-cache ca-certificates \
   && update-ca-certificates \
   && apk add --no-cache --virtual .build-deps \
@@ -202,7 +201,7 @@ RUN set -x; GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
   && mv /tmp/envsubst /usr/local/bin/
 
 # Create self-signed certificate
-RUN apk add openssl \
+RUN apk add --no-cache openssl \
   && openssl req -x509 -newkey rsa:4096 -nodes -keyout /etc/ssl/private/localhost.key -out /etc/ssl/localhost.pem -days 365 -sha256 -subj '/CN=localhost'
 
 FROM alpine:latest
